@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/house-of-ishvita-react/sw.js', { scope: '/house-of-ishvita-react/' })})}

@@ -1,0 +1,2 @@
+import{j as t}from"./index-wUp2WKmE.js";import"./vendor-CC0-dv1L.js";const r=()=>t.jsx("div",{className:"pt-20 min-h-screen bg-background",children:t.jsxs("div",{className:"container mx-auto px-4 py-20",children:[t.jsx("h1",{className:"text-5xl font-bold text-center text-secondary mb-8",children:"Product Details"}),t.jsx("p",{className:"text-center text-textLight text-xl",children:"Product detail page - Coming Soon"})]})});export{r as default};
+//# sourceMappingURL=ProductDetail-CfII60QJ.js.map
