@@ -6,10 +6,21 @@ export interface Product {
   image: string;
   category: 'party' | 'ethnic' | 'professional' | 'casual';
   description: string;
+  sizes: string[];
+  material?: string;
+  care?: string[];
+  features?: string[];
+  stockStatus: 'in_stock' | 'out_of_stock' | 'low_stock';
+  additionalImages?: string[];
+  ratings: {
+    average: number;
+    count: number;
+  };
 }
 
 export interface CartItem extends Product {
   quantity: number;
+  selectedSize?: string;
 }
 
 export interface User {

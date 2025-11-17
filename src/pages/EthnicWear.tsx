@@ -3,72 +3,7 @@ import { useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard';
 import { Product } from '../types';
 
-const ethnicProducts: Product[] = [
-  {
-    id: 101,
-    name: 'Royal Blue Silk Saree',
-    price: 4299,
-    image: 'https://i.pinimg.com/1200x/bc/69/92/bc69923c1dfeb31e5f59d58574f30574.jpg',
-    category: 'ethnic',
-    description: 'Luxurious silk saree with golden border and intricate embroidery',
-  },
-  {
-    id: 102,
-    name: 'Pink Anarkali Suit',
-    price: 3799,
-    image: 'https://i.pinimg.com/1200x/81/b6/94/81b694c0e6d699a1b766a43f5aedc18c.jpg',
-    category: 'ethnic',
-    description: 'Beautiful pink anarkali with heavy embellishments',
-  },
-  {
-    id: 103,
-    name: 'Maroon Lehenga Choli',
-    price: 5499,
-    image: 'https://i.pinimg.com/736x/8a/6c/c1/8a6cc1317c0e27138e3295283719acbc.jpg',
-    category: 'ethnic',
-    description: 'Stunning maroon bridal lehenga with zari work',
-  },
-  {
-    id: 104,
-    name: 'Teal Green Kurta Set',
-    price: 2499,
-    image: 'https://i.pinimg.com/1200x/57/a7/43/57a743aa3b684095ed84e1edeb1ddd1b.jpg',
-    category: 'ethnic',
-    description: 'Elegant kurta pajama set for festive occasions',
-  },
-  {
-    id: 105,
-    name: 'Golden Banarasi Saree',
-    price: 6999,
-    image: 'https://i.pinimg.com/736x/b5/25/49/b52549588678a2a1d3e72dc9cc8bf43b.jpg',
-    category: 'ethnic',
-    description: 'Premium Banarasi silk saree with pure gold threads',
-  },
-  {
-    id: 106,
-    name: 'Emerald Sharara Set',
-    price: 4599,
-    image: 'https://i.pinimg.com/736x/c9/5b/0a/c95b0a52ff276189db8159c0485a677b.jpg',
-    category: 'ethnic',
-    description: 'Contemporary sharara with mirror work',
-  },
-  {
-    id: 107,
-    name: 'Red Bridal Lehenga',
-    price: 8999,
-    image: 'https://i.pinimg.com/736x/1c/19/2d/1c192dbd135469b2127da098594af55d.jpg',
-    category: 'ethnic',
-    description: 'Grand bridal lehenga with heavy embroidery',
-  },
-  {
-    id: 108,
-    name: 'Peach Palazzo Suit',
-    price: 3299,
-    image: 'https://i.pinimg.com/1200x/c6/07/83/c60783254dcc875ed50c7cef1d229420.jpg',
-    category: 'ethnic',
-    description: 'Trendy palazzo suit perfect for casual ethnic wear',
-  },
-];
+import { ethnicProducts } from '../data/products';
 
 const EthnicWear = () => {
   const [, setLoaded] = useState(false);

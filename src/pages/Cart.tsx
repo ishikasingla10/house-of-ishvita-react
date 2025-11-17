@@ -86,7 +86,7 @@ const Cart = () => {
                 onClick={handleCheckout}
                 className="flex-1 px-6 py-3 bg-primary text-white rounded-lg hover:bg-secondary transition-colors font-semibold"
               >
-                Proceed to Checkout
+                Place Order 
               </button>
             </div>
           </div>

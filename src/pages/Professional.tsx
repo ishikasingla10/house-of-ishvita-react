@@ -1,74 +1,7 @@
 // Professional Wear Page - Complete Collection
 import { useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard';
-import { Product } from '../types';
-
-const professionalProducts: Product[] = [
-  {
-    id: 201,
-    name: 'Navy Blue Blazer Set',
-    price: 4999,
-    image: 'https://i.pinimg.com/1200x/6f/b3/22/6fb322c851f0d1d866e3158ae6546521.jpg',
-    category: 'professional',
-    description: 'Classic navy blazer with matching trousers',
-  },
-  {
-    id: 202,
-    name: 'Grey Pant Suit',
-    price: 4599,
-    image: 'https://i.pinimg.com/736x/76/2b/dd/762bdd514e11219f1e8033b48304e347.jpg',
-    category: 'professional',
-    description: 'Sophisticated grey suit perfect for office wear',
-  },
-  {
-    id: 203,
-    name: 'Black Power Dress',
-    price: 3299,
-    image: 'https://i.pinimg.com/736x/37/d4/ae/37d4ae9a3b7fb0abfe530975c37ab9b3.jpg',
-    category: 'professional',
-    description: 'Elegant black dress for business meetings',
-  },
-  {
-    id: 204,
-    name: 'White Shirt & Skirt',
-    price: 2899,
-    image: 'https://i.pinimg.com/736x/89/30/35/89303597d1a38f2010b580064281144f.jpg',
-    category: 'professional',
-    description: 'Classic white shirt with pencil skirt combo',
-  },
-  {
-    id: 205,
-    name: 'Burgundy Blazer',
-    price: 3799,
-    image: 'https://i.pinimg.com/1200x/e6/1f/df/e61fdf2d61681f490c35dc3164823562.jpg',
-    category: 'professional',
-    description: 'Stylish burgundy blazer for corporate events',
-  },
-  {
-    id: 206,
-    name: 'Beige Trouser Suit',
-    price: 4399,
-    image: 'https://i.pinimg.com/736x/6b/13/e2/6b13e2842c72b4495ecb516d78e31c3b.jpg',
-    category: 'professional',
-    description: 'Elegant beige suit for professional settings',
-  },
-  {
-    id: 207,
-    name: 'Charcoal Blazer Dress',
-    price: 3599,
-    image: 'https://i.pinimg.com/1200x/00/48/f3/0048f383d4356aa957ba122c24e5d70a.jpg',
-    category: 'professional',
-    description: 'Modern blazer dress for confident professionals',
-  },
-  {
-    id: 208,
-    name: 'Pinstripe Pant Suit',
-    price: 5299,
-    image: 'https://i.pinimg.com/1200x/24/b9/39/24b9392d2d6a8cedc1b8968f51a92098.jpg',
-    category: 'professional',
-    description: 'Classic pinstripe suit for executive presence',
-  },
-];
+import { professionalProducts } from '../data/products';
 
 const Professional = () => {
   const [, setLoaded] = useState(false);

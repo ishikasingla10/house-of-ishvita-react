@@ -1,6 +1,7 @@
 // Style Assistant Page - Color & Body Type Recommendations
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import SideChat from '../components/SideChat';
 
 interface ChatMessage {
   type: 'user' | 'bot';
@@ -166,6 +167,9 @@ const StyleAssistant = () => {
           </p>
         </div>
       </section>
+
+        {/* Side chat widget (right-side floating) */}
+        <SideChat />
 
       {/* Tab Selection */}
       <section className="px-4 mb-8">

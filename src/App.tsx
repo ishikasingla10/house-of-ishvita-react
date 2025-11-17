@@ -2,12 +2,14 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
+import { WishlistProvider } from './context/WishlistContext';
 
 // Lazy Loading: Code splitting for better performance
 import { lazy, Suspense } from 'react';
 
 // Components
 import Header from './components/Header';
+import ScrollToTop from './components/ScrollToTop';
 import Footer from './components/Footer';
 import Loading from './components/Loading';
 
@@ -28,12 +30,14 @@ function App() {
     // State Management: Wrap app with context providers
     <AuthProvider>
       <CartProvider>
-        <Router basename="/house-of-ishvita-react">
+        <WishlistProvider>
+          <Router basename="/house-of-ishvita-react">
           <div className="min-h-screen flex flex-col">
             {/* Semantic HTML: Header navigation */}
             <Header />
             
             {/* Main Content with React Router */}
+            <ScrollToTop />
             <main id="main-content" className="flex-grow">
               <Suspense fallback={<Loading />}>
                 <Routes>
@@ -55,6 +59,7 @@ function App() {
             <Footer />
           </div>
         </Router>
+        </WishlistProvider>
       </CartProvider>
     </AuthProvider>
   );

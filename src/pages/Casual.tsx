@@ -1,74 +1,8 @@
 // Casual Wear Page - Complete Collection
 import { useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard';
+import { casualProducts } from '../data/products';
 import { Product } from '../types';
-
-const casualProducts: Product[] = [
-  {
-    id: 301,
-    name: 'Denim Jacket & Jeans',
-    price: 2999,
-    image: 'https://i.pinimg.com/1200x/f1/10/0f/f1100ff7c8548cece88bdd32dc50bc18.jpg',
-    category: 'casual',
-    description: 'Classic denim on denim look for everyday style',
-  },
-  {
-    id: 302,
-    name: 'Floral Summer Dress',
-    price: 1899,
-    image: 'https://i.pinimg.com/736x/dd/76/f1/dd76f15038b45a8c5dbc75a21feff55b.jpg',
-    category: 'casual',
-    description: 'Light and breezy floral dress for summer',
-  },
-  {
-    id: 303,
-    name: 'White T-Shirt & Joggers',
-    price: 1499,
-    image: 'https://i.pinimg.com/1200x/02/de/52/02de526e02a663663edd019546da0a6b.jpg',
-    category: 'casual',
-    description: 'Comfortable athleisure for casual outings',
-  },
-  {
-    id: 304,
-    name: 'Striped Crop Top',
-    price: 999,
-    image: 'https://i.pinimg.com/1200x/e7/38/84/e73884b9aa207e9fbfa4a7200897c983.jpg',
-    category: 'casual',
-    description: 'Trendy striped crop top perfect for weekends',
-  },
-  {
-    id: 305,
-    name: 'Oversized Sweater',
-    price: 2299,
-    image: 'https://i.pinimg.com/1200x/82/5e/c8/825ec8a5c53b4c83349fe8fe06e48519.jpg',
-    category: 'casual',
-    description: 'Cozy oversized sweater for chilly days',
-  },
-  {
-    id: 306,
-    name: 'Boho Maxi Dress',
-    price: 2799,
-    image: 'https://i.pinimg.com/736x/9c/a3/57/9ca357216dadb92540d70e54429f9e83.jpg',
-    category: 'casual',
-    description: 'Bohemian style maxi dress with print',
-  },
-  {
-    id: 307,
-    name: 'Casual Jumpsuit',
-    price: 2599,
-    image: 'https://i.pinimg.com/736x/64/94/a1/6494a1eadb1c5ce1b5c600a51893a1ad.jpg',
-    category: 'casual',
-    description: 'Easy-to-wear jumpsuit for effortless style',
-  },
-  {
-    id: 308,
-    name: 'Cotton Shirt Dress',
-    price: 1999,
-    image: 'https://i.pinimg.com/736x/69/9b/87/699b870f829349e5a9a6315a33bc1be8.jpg',
-    category: 'casual',
-    description: 'Versatile cotton shirt dress for any occasion',
-  },
-];
 
 const Casual = () => {
   const [, setLoaded] = useState(false);
@@ -78,7 +12,7 @@ const Casual = () => {
   
   // Preload all product images immediately
   useEffect(() => {
-    casualProducts.forEach(product => {
+    casualProducts.forEach((product: Product) => {
       const img = new Image();
       img.src = product.image;
     });

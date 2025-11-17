@@ -4,73 +4,8 @@ import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { Product } from '../types';
 
-// Product data for Party Wear - All unique female fashion images
-const partyWearProducts: Product[] = [
-  {
-    id: 1,
-    name: 'Ruby Red Evening Gown',
-    price: 3499,
-    image: 'https://i.pinimg.com/736x/27/f4/24/27f4244a3cdd1f7bcc31266a46866e2f.jpg',
-    category: 'party',
-    description: 'Stunning red evening gown with sequin details and elegant silhouette',
-  },
-  {
-    id: 2,
-    name: 'Midnight Black Sequined Dress',
-    price: 2899,
-    image: 'https://i.pinimg.com/736x/2a/06/b0/2a06b04f43fdee5c1a0cfc9295798136.jpg',
-    category: 'party',
-    description: 'Elegant black dress with full sequin coverage for glamorous nights',
-  },
-  {
-    id: 3,
-    name: 'Gold Metallic Goddess Gown',
-    price: 3199,
-    image: 'https://i.pinimg.com/1200x/76/a8/86/76a8860d2ad620c9b367547be194ecce.jpg',
-    category: 'party',
-    description: 'Glamorous gold metallic party dress with statement shoulders',
-  },
-  {
-    id: 4,
-    name: 'Silver Shimmer Cocktail Dress',
-    price: 2499,
-    image: 'https://i.pinimg.com/736x/9a/b8/8f/9ab88ff2ced1710b2bcd930d5d406989.jpg',
-    category: 'party',
-    description: 'Chic silver cocktail dress perfect for upscale parties',
-  },
-  {
-    id: 5,
-    name: 'Emerald Dream Gown',
-    price: 3899,
-    image: 'https://i.pinimg.com/1200x/0a/f8/54/0af8545879b5416238e45d0e4582357f.jpg',
-    category: 'party',
-    description: 'Luxurious emerald green evening gown with flowing train',
-  },
-  {
-    id: 6,
-    name: 'Royal Purple Velvet Dress',
-    price: 2699,
-    image: 'https://i.pinimg.com/1200x/6e/ff/7e/6eff7ebe6721d23b9b8ef5ad77670728.jpg',
-    category: 'party',
-    description: 'Rich purple velvet party dress with modern cut',
-  },
-  {
-    id: 7,
-    name: 'Rose Gold Mermaid Gown',
-    price: 4199,
-    image: 'https://i.pinimg.com/1200x/a4/3c/45/a43c454c0e21015934459ec211f4eef6.jpg',
-    category: 'party',
-    description: 'Breathtaking rose gold mermaid style evening dress',
-  },
-  {
-    id: 8,
-    name: 'Sapphire Blue Cocktail Dress',
-    price: 2999,
-    image: 'https://i.pinimg.com/736x/88/7c/8d/887c8d28daf179663ef304ee2ef10311.jpg',
-    category: 'party',
-    description: 'Elegant sapphire blue dress with intricate beadwork',
-  },
-];
+// Product data for Party Wear - imported from central data
+import { partyProducts as partyWearProducts } from '../data/products';
 
 const PartyWear = () => {
   const [, setLoaded] = useState(false);
@@ -80,7 +15,7 @@ const PartyWear = () => {
   
   // Preload all product images immediately
   useEffect(() => {
-    partyWearProducts.forEach(product => {
+    partyWearProducts.forEach((product: Product) => {
       const img = new Image();
       img.src = product.image;
     });

@@ -1,6 +1,7 @@
 // Home Page Component - Enhanced UI
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import gsap from 'gsap';
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -26,9 +27,50 @@ const Home = () => {
     }, 5000);
     return () => clearInterval(interval);
   }, []);
+
+  // Entrance animations using GSAP (falls back gracefully if GSAP not available)
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    try {
+      const ctx = gsap.context(() => {
+        // Hero titles entrance
+        gsap.from('.hero-title', {
+          y: 40,
+          opacity: 0,
+          stagger: 0.12,
+          duration: 0.9,
+          ease: 'power3.out',
+        });
+
+        // Subtitle and buttons
+        gsap.from('.hero-subtitle, .hero-button', {
+          y: 20,
+          opacity: 0,
+          stagger: 0.08,
+          duration: 0.8,
+          ease: 'power3.out',
+          delay: 0.15,
+        });
+
+        // Feature boxes and category cards
+        gsap.from('.feature-box, .category-card .relative, .fade-in', {
+          y: 20,
+          opacity: 0,
+          stagger: 0.08,
+          duration: 0.8,
+          ease: 'power3.out',
+          delay: 0.25,
+        });
+      }, rootRef);
+
+      return () => ctx.revert();
+    } catch (e) {
+      // If GSAP fails for any reason, no-op (CSS fallbacks in place)
+    }
+  }, []);
   
   return (
-    <div className="pt-20">
+    <div className="pt-20" ref={rootRef}>
       {/* Hero Section with Slider */}
       <section className="relative min-h-screen overflow-hidden">
         {/* Background Image Slider */}
@@ -51,35 +93,39 @@ const Home = () => {
         </div>
         
         {/* Hero Content */}
-        <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
+          <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
           <div className="text-center max-w-5xl">
             <div className="mb-8">
-              <h1 className="hero-title text-5xl md:text-7xl lg:text-9xl font-bold text-white mb-4 drop-shadow-2xl">
+              <h1 className="hero-title text-5xl md:text-7xl lg:text-9xl font-bold text-white mb-4 drop-shadow-2xl fade-in slide-up delay-100 will-animate">
                 House of
               </h1>
-              <h1 className="hero-title text-5xl md:text-7xl lg:text-9xl font-bold text-primary ml-0 md:ml-12 drop-shadow-2xl">
+              <h1 className="hero-title text-5xl md:text-7xl lg:text-9xl font-bold text-primary ml-0 md:ml-12 drop-shadow-2xl fade-in slide-up delay-200 will-animate">
                 Ishvita
               </h1>
             </div>
-            
-            <p className="hero-subtitle text-xl md:text-3xl text-white mb-12 max-w-3xl mx-auto drop-shadow-lg font-light">
+            <p className="hero-subtitle text-xl md:text-3xl text-white mb-12 max-w-3xl mx-auto drop-shadow-lg font-light fade-in delay-300 will-animate">
               Personalized styling powered by AI. Discover your perfect look with mood-based recommendations and virtual try-ons.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-              <button className="hero-button px-10 py-5 bg-primary text-white rounded-full hover:bg-white hover:text-primary transition-all font-semibold text-lg shadow-2xl transform hover:scale-105">
-                Style Your Journey
-              </button>
-              <Link to="/party-wear">
-                <button className="hero-button px-10 py-5 bg-white/20 backdrop-blur-md text-white rounded-full hover:bg-white hover:text-secondary transition-all font-semibold text-lg shadow-2xl border-2 border-white transform hover:scale-105">
-                  Explore Collections
+              {/* Style Your Journey should navigate to the Style Assistant page */}
+              <Link to="/style-assistant">
+                <button className="hero-button px-10 py-5 bg-primary text-white rounded-full hover:bg-white hover:text-primary transition-all font-semibold text-lg shadow-2xl transform hover:scale-105 fade-in delay-400 will-animate">
+                  Style Your Journey
                 </button>
               </Link>
+
+              {/* Explore Collections should jump to the Style Categories section on this page */}
+              <a href="#style-categories">
+                <button className="hero-button px-10 py-5 bg-white/20 backdrop-blur-md text-white rounded-full hover:bg-white hover:text-secondary transition-all font-semibold text-lg shadow-2xl border-2 border-white transform hover:scale-105 fade-in delay-450 will-animate">
+                  Explore Collections
+                </button>
+              </a>
             </div>
             
             {/* Features */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              <div className="feature-box p-8 bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20">
+              <div className="feature-box p-8 bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 fade-in delay-500 will-animate h-full flex flex-col justify-start">
                 <div className="text-5xl mb-4">✨</div>
                 <h2 className="text-3xl font-bold text-white mb-3">AI Stylist</h2>
                 <p className="text-white/90 text-lg">
@@ -87,7 +133,7 @@ const Home = () => {
                 </p>
               </div>
               
-              <div className="feature-box p-8 bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20">
+              <div className="feature-box p-8 bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 fade-in delay-550 will-animate h-full flex flex-col justify-start">
                 <div className="text-5xl mb-4">👗</div>
                 <h2 className="text-3xl font-bold text-white mb-3">Virtual Try-On</h2>
                 <p className="text-white/90 text-lg">
@@ -114,7 +160,7 @@ const Home = () => {
       </section>
       
       {/* Categories Section */}
-      <section className="py-20 bg-gradient-to-b from-lightBg to-white px-4">
+  <section id="style-categories" className="py-20 bg-gradient-to-b from-lightBg to-white px-4">
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-5xl md:text-7xl font-bold text-secondary mb-6 relative inline-block">
@@ -127,9 +173,9 @@ const Home = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto mb-12">
             <Link to="/party-wear" className="category-card group">
-              <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-300 hover:-translate-y-4">
+              <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-300 hover:-translate-y-4 fade-in delay-600 will-animate">
                 <img
                   src="https://i.pinimg.com/736x/ce/4b/73/ce4b731d06b055c2ef80b03ad69bbf53.jpg"
                   alt="Party Wear"
@@ -147,7 +193,7 @@ const Home = () => {
             </Link>
             
             <Link to="/ethnic-wear" className="category-card group">
-              <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-300 hover:-translate-y-4">
+              <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-300 hover:-translate-y-4 fade-in delay-650 will-animate">
                 <img
                   src="https://i.pinimg.com/736x/c6/3f/a4/c63fa465148e0913096e5da96eda9503.jpg"
                   alt="Ethnic Wear"
@@ -162,7 +208,7 @@ const Home = () => {
             </Link>
             
             <Link to="/professional" className="category-card group">
-              <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-300 hover:-translate-y-4">
+              <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-300 hover:-translate-y-4 fade-in delay-700 will-animate">
                 <img
                   src="https://i.pinimg.com/736x/29/9e/8b/299e8b5cf166dfcb09aef1beb3fb59af.jpg"
                   alt="Professional"
@@ -177,7 +223,7 @@ const Home = () => {
             </Link>
             
             <Link to="/casual" className="category-card group">
-              <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-300 hover:-translate-y-4">
+              <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-300 hover:-translate-y-4 fade-in delay-750 will-animate">
                 <img
                   src="https://i.pinimg.com/1200x/63/04/71/630471e0cf4a251d50def863da64fc94.jpg"
                   alt="Casual Chic"
@@ -226,22 +272,22 @@ const Home = () => {
               <img
                 src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=300&q=60&auto=format&fm=webp"
                 alt="Featured 1"
-                className="w-full h-64 object-cover rounded-2xl shadow-lg"
+                className="w-full h-64 object-cover rounded-2xl shadow-lg fade-in delay-300 will-animate"
               />
               <img
                 src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=300&q=60&auto=format&fm=webp"
                 alt="Featured 2"
-                className="w-full h-64 object-cover rounded-2xl shadow-lg mt-8"
+                className="w-full h-64 object-cover rounded-2xl shadow-lg mt-8 fade-in delay-350 will-animate"
               />
               <img
                 src="https://images.unsplash.com/photo-1485230405346-71acb9518d9c?w=300&q=60&auto=format&fm=webp"
                 alt="Featured 3"
-                className="w-full h-64 object-cover rounded-2xl shadow-lg -mt-8"
+                className="w-full h-64 object-cover rounded-2xl shadow-lg -mt-8 fade-in delay-400 will-animate"
               />
               <img
                 src="https://images.unsplash.com/photo-1467043237213-65f2da53396f?w=300&q=60&auto=format&fm=webp"
                 alt="Featured 4"
-                className="w-full h-64 object-cover rounded-2xl shadow-lg"
+                className="w-full h-64 object-cover rounded-2xl shadow-lg fade-in delay-450 will-animate"
               />
             </div>
           </div>
@@ -251,7 +297,7 @@ const Home = () => {
       {/* Virtual Styling Section */}
       <section className="py-20 bg-gradient-to-b from-lightBg to-secondary px-4">
         <div className="container mx-auto text-center max-w-6xl">
-          <h2 className="text-5xl md:text-6xl font-bold text-secondary mb-6">
+          <h2 className="text-5xl md:text-6xl font-bold text-secondary mb-6 fade-in delay-300 will-animate">
             Virtual Styling Board
           </h2>
           <p className="text-xl text-textLight mb-12">

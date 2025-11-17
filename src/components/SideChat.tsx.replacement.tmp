@@ -1,0 +1,195 @@
+import React, { useEffect, useRef, useState } from 'react';
+
+type Msg = { from: 'user' | 'bot'; text: string };
+
+const QUICK_REPLIES = [
+  "Help me pick colors",
+  "What's my size?",
+  "Returns policy",
+  "Shipping info",
+  "Suggest an outfit"
+];
+
+const cannedReplies = (text: string): string[] => {
+  const t = text.toLowerCase();
+  if (/color|shade|tone|skin|skin tone/.test(t)) {
+    return [
+      "Great — colors can change the whole look. Here are a few directions:",
+      "1) Jewel tones: Emerald, Ruby, Sapphire — rich and universally flattering.",
+      "2) Neutrals: Warm beige, camel, navy — good for everyday & layering.",
+      "Tell me your skin tone (fair, light, medium, olive, tan, deep) and I'll narrow these down for you."
+    ];
+  }
+  if (/size|fit|measure|measurement/.test(t)) {
+    return [
+      "Sizing tips — happy to help!",
+      "• Check the product size chart on each product page.",
+      "• If you share bust/waist/hip measurements I can suggest a likely size range.",
+      "Would you like to input your measurements now?"
+    ];
+  }
+  if (/return|refund|exchange/.test(t)) {
+    return [
+      "Returns & exchanges — here's the quick summary:",
+      "• 14-day return window from delivery",
+      "• Items must be unworn with tags",
+      "Would you like a link to the full policy or help initiating a return?"
+    ];
+  }
+  if (/shipping|delivery|ship/.test(t)) {
+    return [
+      "Shipping info:",
+      "• We offer standard and express shipping.",
+      "• Delivery time depends on your location — add your pin code at checkout to see exact options.",
+      "Want me to guide you to the checkout to check shipping?"
+    ];
+  }
+  if (/recommend|what should i wear|suggest|occasion/.test(t)) {
+    return [
+      "Love that — tell me the occasion:",
+      "• Casual / Work / Party / Wedding / Festive",
+      "Once you pick one I'll suggest an outfit + color palette + accessories."
+    ];
+  }
+  if (/hello|hi|hey/.test(t)) {
+    return ["Hi there 👋 — I'm your Style Assistant.", "Ask me about colors, fits, outfits or shipping. Try: 'What colors suit medium skin tone?'"];
+  }
+  return [
+    "Great question — I can help with colors, fits, sizing, shipping, returns and outfit suggestions.",
+    "Could you give me a bit more detail? For example: 'I have olive skin' or 'I need a party outfit for evening'."
+  ];
+};
+
+const SideChat: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState<Msg[]>([
+    { from: 'bot', text: "Hi — I'm your style assistant. Ask me about colors, fits, or outfit ideas." }
+  ]);
+  const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const listRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.scrollTop = listRef.current.scrollHeight;
+    }
+  }, [messages, open]);
+
+  const send = (text: string) => {
+    if (!text.trim()) return;
+
+    const userMsg: Msg = { from: 'user', text };
+    setMessages((m) => [...m, userMsg]);
+    setInput('');
+
+    setIsTyping(true);
+    const replies = cannedReplies(text);
+    replies.forEach((r, i) => {
+      const delay = 600 + i * 450;
+      setTimeout(() => {
+        if (i === replies.length - 1) setIsTyping(false);
+        const botMsg: Msg = { from: 'bot', text: r };
+        setMessages((m) => [...m, botMsg]);
+      }, delay);
+    });
+  };
+
+  const onSubmit: React.FormEventHandler = (e) => {
+    e.preventDefault();
+    send(input);
+  };
+
+  const sendQuickReply = (text: string) => send(text);
+
+  return (
+    <div>
+      <button
+        aria-label={open ? 'Close chat' : 'Open chat'}
+        onClick={() => setOpen((s) => !s)}
+        className="fixed right-6 bottom-6 z-50 flex items-center gap-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-4 rounded-full shadow-2xl hover:scale-105 transition-all duration-300 animate-bounce"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h6m-5 8l-2-2H5a2 2 0 01-2-2V7a2 2 0 012-2h14a2 2 0 012 2v7a2 2 0 01-2 2h-2l-2 2" />
+        </svg>
+        <span className="font-semibold text-lg">Need Help?</span>
+      </button>
+
+      <aside
+        className={`fixed right-6 bottom-20 z-50 w-96 max-w-full h-[32rem] bg-white rounded-2xl shadow-2xl ring-1 ring-pink-200 overflow-hidden transform transition-all duration-300 ${open ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-6 opacity-0 scale-95 pointer-events-none'}`}
+        aria-hidden={!open}
+      >
+        <div className="h-full flex flex-col">
+          <div className="px-4 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                <span className="text-xl">💬</span>
+              </div>
+              <div>
+                <div className="font-bold text-lg">Style Assistant</div>
+                <div className="text-sm opacity-90">Quick help & outfit ideas</div>
+              </div>
+            </div>
+            <button onClick={() => setOpen(false)} className="text-white/90 hover:text-white text-xl">
+              ✕
+            </button>
+          </div>
+
+          <div ref={listRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-gradient-to-b from-white to-pink-50">
+            {messages.map((m, i) => (
+              <div key={i} className={`flex ${m.from === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`${m.from === 'user' ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white' : 'bg-white border-2 border-pink-100 text-gray-800'} max-w-[85%] p-3 rounded-2xl shadow-sm">
+                  <div className="whitespace-pre-line text-sm">{m.text}</div>
+                </div>
+              </div>
+            ))}
+            {isTyping && (
+              <div className="flex justify-start">
+                <div className="bg-white border-2 border-pink-100 text-gray-800 max-w-[85%] p-3 rounded-2xl shadow-sm">
+                  <div className="flex gap-1">
+                    <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="px-3 py-2 border-t border-pink-100 bg-white/80 backdrop-blur-sm">
+            <div className="flex gap-2 overflow-x-auto pb-2 snap-x">
+              {QUICK_REPLIES.map((reply, i) => (
+                <button
+                  key={i}
+                  onClick={() => sendQuickReply(reply)}
+                  className="snap-start shrink-0 px-3 py-1 rounded-full bg-pink-100 text-pink-700 text-sm hover:bg-pink-200 transition-colors"
+                >
+                  {reply}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <form onSubmit={onSubmit} className="p-3 border-t border-pink-100 bg-white">
+            <div className="flex gap-2">
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask about colors, fits, or outfits..."
+                className="flex-1 px-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-200"
+                aria-label="Chat input"
+              />
+              <button
+                type="submit"
+                className="px-5 py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold hover:shadow-lg transition-shadow"
+              >
+                Send
+              </button>
+            </div>
+          </form>
+        </div>
+      </aside>
+    </div>
+  );
+};
+
+export default SideChat;
