@@ -4,7 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // Build Tools: Vite configuration for bundling and hot reloading
 export default defineConfig({
-  base: '/house-of-ishvita-react/',
+  base: '/' ,
   plugins: [
     react(),
     // PWA Configuration for Progressive Web App
